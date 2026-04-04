@@ -9,6 +9,7 @@ entity Books : managed {
   genre  : Association to Genres;
   stock  : Integer;
   price  : Decimal;
+  rating : Integer; 
   currency : Currency;
 }
 

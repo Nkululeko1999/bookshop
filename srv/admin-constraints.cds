@@ -12,4 +12,5 @@ annotate AdminService.Books
 
     price @assert.range: [1, 111];
     stock @assert.range: [(0), _];
+    rating @assert.range: [1, 10];
  };
