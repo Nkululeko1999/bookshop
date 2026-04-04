@@ -1,1 +1,6 @@
-code,symbol,minorUnit,name,descr
+code,name,descr
+ZAR,South African Rand,Official currency of South Africa
+USD,US Dollar,United States currency
+EUR,Euro,Used in Eurozone countries
+GBP,British Pound,United Kingdom currency
+JPY,Japanese Yen,Japanese Yen currency
