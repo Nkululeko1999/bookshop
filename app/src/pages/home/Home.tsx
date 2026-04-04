@@ -1,6 +1,8 @@
+import Logo from "../../components/logo";
+
 const Home = () => {
     return (
-        <div>Home Page</div>
+        <Logo />
     );
 };
 
