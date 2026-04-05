@@ -14,16 +14,25 @@ import {
 } from "../../components/ui/popover";
 import { useState } from "react";
 import BooksList from "../../components/books/books-list";
+import { useQuery } from "@tanstack/react-query";
 
 const Home = () => {
+  const [filters, setFilters] = useState<string[]>([]);
   const [sort, setSort] = useState<
     "title-asc" | "title-desc" | "newest" | "oldest"
   >("newest");
+  const { isPending, error, data } = useQuery({
+    queryKey: ["books"],
+    queryFn: () => fetch("/api/browse/Books").then((res) => res.json()),
+  });
 
-  const [filters, setFilters] = useState<string[]>([]);
+  if (isPending) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
+
+  console.log(data);
 
   console.log(sort);
-  
 
   const toggleFilter = (category: string) => {
     setFilters((prev) =>
@@ -41,22 +50,6 @@ const Home = () => {
     console.log(`Book of ID ${id} added to cart: Quantity ${quantity} `);
   };
 
-  const books = [
-    {
-      createdAt: new Date("2026-04-04T22:29:48.157Z"),
-      modifiedAt: new Date("2026-04-04T22:29:48.157Z"),
-      ID: 201,
-      title: "Wuthering Heights",
-      descr: null,
-      author: "Emily Brontë",
-      genre: "Drama",
-      stock: 12,
-      price: null,
-      rating: null,
-      currency_code: null,
-    },
-  ];
-
   return (
     <>
       <Header />
@@ -65,7 +58,7 @@ const Home = () => {
       <div className="container bg-white rounded-md h-150 mt-12 mx-2 md:mx-auto  border border-gray-100 p-4 md:p-6">
         <div className="flex justify-between items-center">
           <div>
-            <h3 className="text-xl font-bold">Books(5)</h3>
+            <h3 className="text-xl font-bold">Books({data.value.length})</h3>
           </div>
 
           {/* Filter and Sort */}
@@ -135,14 +128,12 @@ const Home = () => {
               </PopoverContent>
             </Popover>
           </div>
-
-          
         </div>
 
         {/* Books List */}
-          <div className="mt-8">
-            <BooksList books={books} addCart={addCart} />
-          </div>
+        <div className="mt-8">
+          <BooksList books={data.value} addCart={addCart} />
+        </div>
       </div>
     </>
   );
