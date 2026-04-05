@@ -1,8 +1,8 @@
-import Logo from "../../components/logo";
+import Header from "../../components/header";
 
 const Home = () => {
     return (
-        <Logo />
+        <Header />
     );
 };
 
