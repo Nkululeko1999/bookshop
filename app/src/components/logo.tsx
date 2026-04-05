@@ -5,11 +5,11 @@ const Logo = () => {
     <div className="flex items-center gap-2">
       {/* Icon */}
       <div className="size-10 rounded-md flex items-center justify-center bg-primary">
-        <BookCheck className="text-background w-10 h-6" />
+        <BookCheck className="text-background w-8 h-6" />
       </div>
 
       {/* Text */}
-      <h2 className="text-xl lg:text-3xl font-extrabold text-primary">
+      <h2 className="text-xl lg:text-2xl font-extrabold text-primary">
         BookShop
       </h2>
     </div>
