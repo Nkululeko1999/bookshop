@@ -1,5 +1,3 @@
-"use client";
-
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./logo";
 import { Heart, LogOut, Search, User } from "lucide-react";
