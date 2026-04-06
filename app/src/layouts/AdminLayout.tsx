@@ -11,7 +11,7 @@ const AdminLayout = () => {
         <SidebarInset>
           <main className="flex-1">
             <Topbar />
-            <div className="p-6">
+            <div className="p-2.5 md:p-6">
               <Outlet />
             </div>
           </main>
