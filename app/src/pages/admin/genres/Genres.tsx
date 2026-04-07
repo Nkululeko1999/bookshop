@@ -1,12 +1,9 @@
 import GenreGrid from "@/components/genres/genre-grid";
 import { Badge } from "@/components/ui/badge";
-import { useQuery } from "@tanstack/react-query";
+import useGenres from "@/hooks/genres/use-genres";
 
 const Genres = () => {
-    const { isPending, error, data } = useQuery({
-        queryKey: ["genres"],
-        queryFn: () => fetch("/api/admin/Genres").then((res) => res.json())
-    });
+    const { isPending, error, data } = useGenres("admin");
 
     if(isPending) return "Loading...";
 
