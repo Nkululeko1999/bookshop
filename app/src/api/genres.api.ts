@@ -35,6 +35,6 @@ export const createGenre = async (params: CreateParams) => {
     body: JSON.stringify(params.formData)
   })
 
-  if (!res.ok) throw new Error("Failed to delete genre");
+  if (!res.ok) throw new Error("Failed to create genre");
   return res.json();
 }
