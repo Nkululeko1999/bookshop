@@ -6,4 +6,8 @@ service CatalogService @(odata: '/browse') {
     author.name as author,
     genre.name as genre,
   } excluding { createdBy, modifiedBy };
+
+  @readonly entity Genres as projection on shop.Genres {
+    *
+  }
 }
