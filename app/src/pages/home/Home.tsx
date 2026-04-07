@@ -1,4 +1,4 @@
-import { ArrowUpDown, Filter } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import Header from "../../components/header";
 import { Button } from "../../components/ui/button";
 import {
@@ -7,11 +7,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../../components/ui/popover";
 import { useState } from "react";
 import useBooks from "@/hooks/books/use-books";
 import BookGrid from "@/components/books/book-grid";
@@ -113,42 +108,6 @@ const Home = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-
-            {/* 🎛 FILTER */}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Filter className="h-4 w-4" />
-                  Filter
-                </Button>
-              </PopoverTrigger>
-
-              <PopoverContent align="end" className="w-64 p-4 space-y-3">
-                <p className="text-sm font-medium">Filter by Genre</p>
-                <div className="flex flex-col gap-2">
-                  {parentGenres.map((genre: Genre) => (
-                    <label
-                      key={genre.ID}
-                      className="flex items-center gap-2 text-sm"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedGenreId === genre.ID}
-                        onChange={() => setSelectedGenreId(genre.ID)}
-                      />
-                      {genre.name}
-                    </label>
-                  ))}
-                </div>
-                <Button
-                  size="sm"
-                  className="w-full mt-2"
-                  onClick={() => setSelectedGenreId(null)}
-                >
-                  Clear filters
-                </Button>
-              </PopoverContent>
-            </Popover>
           </div>
         </div>
 
