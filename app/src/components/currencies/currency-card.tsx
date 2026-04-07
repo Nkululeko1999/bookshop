@@ -1,8 +1,8 @@
-import type { Currencies } from "@/types/currencies.types";
+import type { Currency } from "@/types/currencies.types";
 import { Badge } from "../ui/badge";
 import { Card } from "../ui/card";
 
-interface CurrencyCardProps extends Currencies {
+interface CurrencyCardProps extends Currency {
     icon?: React.ComponentType<{ className?: string }>;
 }
 

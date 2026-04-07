@@ -144,3 +144,14 @@ p {
     @apply font-sans;
   }
 }
+
+.sheet-content-large {
+  width: 40vw !important;
+  max-width: 1400px !important;
+}
+
+@media screen and (max-width: 600px) {
+  .sheet-content-large {
+    width: 100vw !important;
+  }
+}
