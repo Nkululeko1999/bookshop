@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./logo";
-import { Heart, LogOut, Search, User } from "lucide-react";
+import { Heart, LogOut, Search, User, ShoppingCart } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 import {
@@ -40,22 +40,19 @@ const Header = () => {
   );
 
   return (
-    <header className="bg-white">
+    <header className="bg-white border-b">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex justify-center items-center gap-2">
-            {/* Logo */}
-            <Link to="/">
-              <Logo />
-            </Link>
-          </div>
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <Logo />
+          </Link>
 
           {/* Search Bar */}
           <div className="hidden md:block flex-1 max-w-150">
             <Field>
               <ButtonGroup>
                 <Input
-                  id="input-button-group"
                   placeholder="Search books by name, title, genre..."
                   className="py-5"
                 />
@@ -64,48 +61,53 @@ const Header = () => {
             </Field>
           </div>
 
-          {/* Account Section */}
+          {/* Right Section */}
           <div className="flex items-center gap-2 md:gap-4">
-            {/* Mobile: Search */}
+            {/* Basket */}
+            <Link className="relative" to="/basket">
+
+                <ShoppingCart className="h-8 w-8" />
+                <span className="absolute -top-1.5 -right-1 text-xs bg-orange-600 text-white rounded-full px-1 z-50">
+                  3
+                </span>
+            </Link>
+
+            {/* Mobile Search */}
             <div className="block md:hidden">
               <Popover>
-                {/* Rounded Search Button */}
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="h-10 w-10 rounded-full p-0 hover:bg-muted transition"
+                    className="h-10 w-10 rounded-full p-0"
                   >
-                    <Search className="h-7 w-7" />
+                    <Search className="h-6 w-6" />
                   </Button>
                 </PopoverTrigger>
 
-              {/* 🔍 Search UI */}
-              <PopoverContent className="w-96 p-0" align="end">
-                <Command>
-                  <CommandInput
-                    placeholder="Search books..."
-                    value={query}
-                    onValueChange={setQuery}
-                  />
+                <PopoverContent className="w-80 p-0" align="end">
+                  <Command>
+                    <CommandInput
+                      placeholder="Search books..."
+                      value={query}
+                      onValueChange={setQuery}
+                    />
 
-                  <CommandList className="mt-4">
-                    {filtered.length === 0 && (
-                      <CommandEmpty>No results found.</CommandEmpty>
-                    )}
+                    <CommandList className="mt-2">
+                      {filtered.length === 0 && (
+                        <CommandEmpty>No results found.</CommandEmpty>
+                      )}
 
-                    {filtered.map((book) => (
-                      <CommandItem
-                        key={book.id}
-                        onSelect={() => {
-                            navigate(`/books/${book.id}`)
-                        }}
-                      >
-                        {book.title}
-                      </CommandItem>
-                    ))}
-                  </CommandList>
-                </Command>
-              </PopoverContent>
+                      {filtered.map((book) => (
+                        <CommandItem
+                          key={book.id}
+                          onSelect={() => navigate(`/books/${book.id}`)}
+                        >
+                          {book.title}
+                        </CommandItem>
+                      ))}
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
               </Popover>
             </div>
 
@@ -121,11 +123,12 @@ const Header = () => {
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
+
               <DropdownMenuContent className="w-56 mr-4 md:mr-6 lg:mr-8">
                 <DropdownMenuGroup>
                   <Link
                     to="/profile"
-                    className="flex justify-start items-center rounded-lg px-2 gap-2 py-2 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                    className="flex items-center gap-2 px-2 py-2 text-gray-500 hover:bg-gray-50 rounded-lg"
                   >
                     <User className="size-5" />
                     My profile
@@ -133,16 +136,24 @@ const Header = () => {
 
                   <Link
                     to="/favorites"
-                    className="flex justify-start items-center rounded-lg px-2 py-2 gap-2 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                    className="flex items-center gap-2 px-2 py-2 text-gray-500 hover:bg-gray-50 rounded-lg"
                   >
                     <Heart className="size-5" />
                     Favorites
+                  </Link>
+
+                  <Link
+                    to="/basket"
+                    className="flex items-center gap-2 px-2 py-2 text-gray-500 hover:bg-gray-50 rounded-lg"
+                  >
+                    <ShoppingCart className="size-5" />
+                    Basket
                   </Link>
                 </DropdownMenuGroup>
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem className="flex justify-start items-center rounded-lg px-2 py-2 gap-2 text-base text-gray-500 hover:bg-gray-50 hover:text-gray-700">
+                <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-gray-500 hover:bg-gray-50 rounded-lg">
                   <LogOut className="size-5" />
                   Logout
                 </DropdownMenuItem>

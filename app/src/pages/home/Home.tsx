@@ -9,10 +9,11 @@ import {
 } from "../../components/ui/dropdown-menu";
 import { useState } from "react";
 import useBooks from "@/hooks/books/use-books";
-import BookGrid from "@/components/books/book-grid";
 import useGenres from "@/hooks/genres/use-genres";
 import type { Genre } from "@/types/genres.types";
 import HeroWithImage from "@/components/hero-image";
+import BookCard from "@/components/books/book-card";
+import type { Book } from "@/types/book.types";
 
 const Home = () => {
   const [selectedGenreId, setSelectedGenreId] = useState<number | null>(null);
@@ -70,7 +71,7 @@ const Home = () => {
       </div>
 
       {/* Books */}
-      <div className="container rounded-md mt-12 mx-2 md:mx-auto border border-gray-100 p-4 md:p-6">
+      <div className="px-4 md:px-8 mt-4 md:mt-8 mx-2 md:mx-auto border border-gray-100 p-4 md:p-6">
         <div className="flex justify-between items-center">
           <div>
             <h3 className="text-xl font-bold">Books ({data.value.length})</h3>
@@ -113,7 +114,14 @@ const Home = () => {
 
         {/* Books List */}
         <div className="mt-8">
-          <BookGrid books={data.value} />
+           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        {data.value.map((b: Book) => (
+          <BookCard
+            key={b.ID}
+            book={b}
+          />
+        ))}
+      </div>
         </div>
       </div>
     </>
