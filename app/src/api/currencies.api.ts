@@ -2,16 +2,22 @@ import type { Currency } from "@/types/currencies.types";
 
 type DeleteParams = {
     id: number;
+    role: QueryRole;
 }
 
-export const getCurrencies = async () => {    
-  const res = await fetch(`/api/admin/Currencies`);
+type CreateParams = {
+    role: QueryRole;
+    formData: Omit<Currency, "ID">;
+}
+
+export const getCurrencies = async (role: QueryRole) => {    
+  const res = await fetch(`/api/${role}/Currencies`);
  
   return res.json();
 };
 
 export const deleteCurrency = async (params: DeleteParams) => {
-  const res = await fetch(`/api/admin/Currencies/${params.id}`, {
+  const res = await fetch(`/api/${params.role}/Currencies/${params.id}`, {
     method: "DELETE",
   });
 
@@ -19,13 +25,13 @@ export const deleteCurrency = async (params: DeleteParams) => {
   return res.json();
 };
 
-export const createCurrency = async (formData: Omit<Currency, "ID">) => {
-  const res = await fetch(`/api/admin/Currencies`, {
+export const createCurrency = async (params: CreateParams) => {
+  const res = await fetch(`/api/${params.role}/Currencies`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(formData)
+    body: JSON.stringify(params.formData)
   })
 
   if (!res.ok) throw new Error("Failed to create genre");
