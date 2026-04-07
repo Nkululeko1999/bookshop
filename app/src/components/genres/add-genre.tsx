@@ -1,5 +1,3 @@
-"use client";
-
 import type { Genre } from "@/types/genres.types";
 import { useState } from "react";
 
