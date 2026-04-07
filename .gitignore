@@ -22,3 +22,6 @@ mta_archives/
 
 # App 
 app/frontend/node_modules/
+
+# Tests
+test/*
