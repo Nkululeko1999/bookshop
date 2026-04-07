@@ -61,7 +61,7 @@ export function ProfileCard({ user, onLogout }: ProfileCardProps) {
         <Button 
         size="lg"
           onClick={onLogout}
-          className="w-full bg-red-600"
+          className="w-full bg-orange-600"
         >
           Logout
         </Button>

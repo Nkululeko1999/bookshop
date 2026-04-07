@@ -13,7 +13,7 @@ const Currencies = () => {
     if (error) return "Failed to load currencies: " + error.message;
 
   return (
-    <div className="bg-white p-4 md:p-6 shadow rounded-md">
+    <div className="bg-white p-4 md:p-6 shadow rounded-sm">
       <div className="mb-4 flex justify-between items-center">
         <h2 className="text-xl font-bold">Available Currencies</h2>
         <Badge className="text-[14.5px] text-black font-medium p-3 bg-gray-200">

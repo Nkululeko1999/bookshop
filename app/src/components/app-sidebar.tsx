@@ -34,7 +34,7 @@ const data = {
     {
       title: "Books",
       url: "/admin/books",
-      icon: BookOpen
+      icon: BookOpen,
     },
     {
       title: "Currencies",

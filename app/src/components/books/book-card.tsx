@@ -11,10 +11,10 @@ const BookCard = ({
     price, 
     rating, 
     currency_code 
-}: Book) => {
+}: Book) => {    
 
     return (
-        <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden">
+        <Card className="pt-0 rounded group hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden">
             <div className="relative h-48 overflow-hidden bg-gray-100">
                 <img 
                     src="https://placehold.co/300x200"
@@ -33,7 +33,7 @@ const BookCard = ({
                 </div>
             </div>
 
-            <CardContent className="p-4">
+            <CardContent className="pt-0 px-4 pb-4">
                 <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
                     {title}
                 </h3>

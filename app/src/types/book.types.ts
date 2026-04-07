@@ -8,6 +8,6 @@ export interface Book {
   stock: number;
   rating: number | null;
   createdAt: Date;
-  modifiedAt: Date;
+  modifiedAt?: Date;
   currency_code: string | null;
 }
