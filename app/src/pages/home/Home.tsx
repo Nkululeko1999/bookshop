@@ -13,18 +13,15 @@ import {
   PopoverTrigger,
 } from "../../components/ui/popover";
 import { useState } from "react";
-import BooksList from "../../components/books/books-list";
-import { useQuery } from "@tanstack/react-query";
+import useBooks from "@/hooks/books/use-books";
+import BookGrid from "@/components/books/book-grid";
 
 const Home = () => {
   const [filters, setFilters] = useState<string[]>([]);
   const [sort, setSort] = useState<
     "title-asc" | "title-desc" | "newest" | "oldest"
   >("newest");
-  const { isPending, error, data } = useQuery({
-    queryKey: ["books"],
-    queryFn: () => fetch("/api/browse/Books").then((res) => res.json()),
-  });
+  const { isPending, error, data } = useBooks("browse");
 
   if (isPending) return "Loading...";
 
@@ -46,16 +43,12 @@ const Home = () => {
     setFilters([]);
   };
 
-  const addCart = (id: number, quantity: number) => {
-    console.log(`Book of ID ${id} added to cart: Quantity ${quantity} `);
-  };
-
   return (
     <>
       <Header />
 
       {/* Books */}
-      <div className="container bg-white rounded-md h-150 mt-12 mx-2 md:mx-auto  border border-gray-100 p-4 md:p-6">
+      <div className="container rounded-md mt-12 mx-2 md:mx-auto  border border-gray-100 p-4 md:p-6">
         <div className="flex justify-between items-center">
           <div>
             <h3 className="text-xl font-bold">Books({data.value.length})</h3>
@@ -132,7 +125,7 @@ const Home = () => {
 
         {/* Books List */}
         <div className="mt-8">
-          <BooksList books={data.value} addCart={addCart} />
+          <BookGrid books={data.value} />
         </div>
       </div>
     </>

@@ -28,16 +28,7 @@ const BookGrid = ({
         {books.map((b) => (
           <BookCard
             key={b.ID}
-            title={b.title}
-            descr={b.descr}
-            stock={b.stock}
-            price={b.price}
-            rating={b.rating}
-            currency_code={b.currency_code}
-            ID={b.ID}
-            author={""}
-            genre={""}
-            createdAt={b.createdAt}
+            book={b}
           />
         ))}
       </div>
