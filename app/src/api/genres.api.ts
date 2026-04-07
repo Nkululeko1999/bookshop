@@ -8,7 +8,6 @@ type DeleteParams = {
 type CreateParams = {
   role: QueryRole
   formData: Omit<Genre, "ID">;
-
 }
 
 export const getGenres = async (role: QueryRole) => {    

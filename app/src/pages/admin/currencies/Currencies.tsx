@@ -1,26 +1,22 @@
 import CurrencyGrid from "@/components/currencies/currency-grid";
-import { Badge } from "@/components/ui/badge";
-import { useQuery } from "@tanstack/react-query";
+import useCurrencies from "@/hooks/currencies/use-currencies";
+
 
 const Currencies = () => {
-    const { isPending, error, data } = useQuery({
-        queryKey: ["currencies"],
-        queryFn: () => fetch('/api/admin/Currencies').then((res) => res.json())
-    });
+  const { isPending, error, data } = useCurrencies("admin");
 
-    if (isPending) return "Loading...";
+  if (isPending) return "Loading...";
 
-    if (error) return "Failed to load currencies: " + error.message;
+  if (error) return `Failed to load currencies: ${error.message}`
 
   return (
     <div className="bg-white p-4 md:p-6 shadow rounded-sm">
       <div className="mb-4 flex justify-between items-center">
-        <h2 className="text-xl font-bold">Available Currencies</h2>
-        <Badge className="text-[14.5px] text-black font-medium p-3 bg-gray-200">
-          Total: {data.value.length}
-        </Badge>
+        <h2 className="text-base font-medium">
+          Showing {data?.value?.length ?? 0} of Currencies
+        </h2>
       </div>
-      <CurrencyGrid currencies={data.value} />
+      <CurrencyGrid currencies={data?.value ?? []} />
     </div>
   );
 };
