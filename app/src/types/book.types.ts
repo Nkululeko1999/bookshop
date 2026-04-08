@@ -1,18 +1,22 @@
-export interface Book {
+export interface BookRef {
+  ID: string;
   name: string;
-  ID: number;
+}
+
+export interface Book {
+  ID: string;
   title: string;
-  author: { ID: number; name: string };
-  genre: { ID: number; name: string };
+  author: BookRef;   
+  genre: BookRef;    
   descr: string | null;
   price: number | null;
   stock: number;
   rating: number | null;
   type: string;
-  pages: null;
-  ISBN: null;
-  imageUrl: null;
-  imageID: null;
+  pages: number | null;
+  ISBN: string | null;
+  imageUrl: string | null;
+  imageID: string | null;
   createdAt: Date;
   modifiedAt?: Date;
   currency_code: string | null;

@@ -21,17 +21,13 @@ import type { Genre } from "@/types/genres.types";
 
 import useAuthors from "@/hooks/authors/use-authors";
 import useGenres from "@/hooks/genres/use-genres";
-import {
-  useCreateBook,
-  useUpdateBook,
-  useUploadBookImage,
-  useDeleteBookImage,
-} from "@/api/books/books.hooks";
+import { useCreateBook, useUpdateBook } from "@/api/books/books.hooks";
+import { uploadToCloudinary } from "@/lib/utils";
 
 type FormState = {
   title: string;
-  author_ID: number | "";
-  genre_ID: number | "";
+  author_ID: string;
+  genre_ID: string;
   descr: string;
   stock: number;
   price: number;
@@ -51,25 +47,17 @@ type BookFormProps = {
 function getInitialFormData(book: Book | null): FormState {
   return {
     title: book?.title ?? "",
-    author_ID: book?.author?.ID ?? "",
-    genre_ID: book?.genre?.ID ?? "",
+    author_ID: book?.author?.ID ? String(book.author.ID) : "",
+    genre_ID: book?.genre?.ID ? String(book.genre.ID) : "",
     descr: book?.descr ?? "",
     stock: book?.stock ?? 0,
     price: book?.price ?? 0,
     ISBN: book?.ISBN ?? "",
     type: book?.type ?? "",
-    pages: book?.pages ?? 0,
+    pages: Number(book?.pages ?? 0),
     currency: book?.currency_code ?? "ZAR",
   };
 }
-
-const fileToBase64 = (file: File) =>
-  new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
 
 async function compressImage(file: File) {
   const options = {
@@ -92,8 +80,6 @@ export default function BookForm({
 
   const createBook = useCreateBook();
   const updateBook = useUpdateBook();
-  const uploadBookImage = useUploadBookImage();
-  const deleteBookImage = useDeleteBookImage();
 
   const { data: authorsData, isLoading: authorsLoading } = useAuthors("admin");
   const { data: genresData, isLoading: genresLoading } = useGenres("admin");
@@ -106,13 +92,13 @@ export default function BookForm({
   const [previewUrl, setPreviewUrl] = useState<string>(book?.imageUrl ?? "");
   const [removedExistingImage, setRemovedExistingImage] = useState(false);
   const [isProcessingImage, setIsProcessingImage] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const isSaving =
     createBook.isPending ||
     updateBook.isPending ||
-    uploadBookImage.isPending ||
-    deleteBookImage.isPending ||
-    isProcessingImage;
+    isProcessingImage ||
+    isUploadingImage;
 
   useEffect(() => {
     setFormData(getInitialFormData(book));
@@ -135,8 +121,8 @@ export default function BookForm({
 
   const validate = () => {
     if (!formData.title.trim()) return "Title is required";
-    if (formData.author_ID === "") return "Author is required";
-    if (formData.genre_ID === "") return "Genre is required";
+    if (!formData.author_ID) return "Author is required";
+    if (!formData.genre_ID) return "Genre is required";
     if (!formData.ISBN.trim()) return "ISBN is required";
     if (!formData.type.trim()) return "Book type is required";
     if (!formData.pages || formData.pages < 1) return "Pages must be greater than 0";
@@ -177,7 +163,6 @@ export default function BookForm({
       setImageFile(compressedFile as File);
       setPreviewUrl(URL.createObjectURL(compressedFile));
       setRemovedExistingImage(false);
-
     } catch (error) {
       console.error(error);
       toast.error("Failed to process image");
@@ -186,34 +171,15 @@ export default function BookForm({
     }
   };
 
-  const handleRemoveImage = async () => {
+  const handleRemoveImage = () => {
     if (readOnly || isSaving) return;
 
     if (previewUrl?.startsWith("blob:")) {
       URL.revokeObjectURL(previewUrl);
     }
 
-    const hadSavedImage = Boolean(book?.ID && book?.imageUrl && !imageFile);
-
     setImageFile(null);
     setPreviewUrl("");
-
-    if (hadSavedImage && book?.ID) {
-      try {
-        await deleteBookImage.mutateAsync(book.ID);
-        setRemovedExistingImage(true);
-        toast.success("Image removed successfully");
-      } catch (error: unknown) {
-        setPreviewUrl(book.imageUrl ?? "");
-        if (error instanceof Error) {
-          toast.error(error.message || "Failed to remove image");
-        } else {
-          toast.error("Failed to remove image");
-        }
-      }
-      return;
-    }
-
     setRemovedExistingImage(true);
   };
 
@@ -225,10 +191,10 @@ export default function BookForm({
     }
 
     try {
-      const payload = {
+      const payload: Record<string, string | number | boolean | null> = {
         title: formData.title.trim(),
-        author_ID: Number(formData.author_ID),
-        genre_ID: Number(formData.genre_ID),
+        author_ID: formData.author_ID,
+        genre_ID: formData.genre_ID,
         descr: formData.descr.trim() || null,
         stock: Number(formData.stock),
         price: Number(formData.price),
@@ -238,36 +204,33 @@ export default function BookForm({
         currency_code: formData.currency.trim(),
       };
 
-      let savedBook: Book | null = null;
+      if (imageFile) {
+        toast.info(isEdit ? "Uploading new cover..." : "Uploading cover...");
+        setIsUploadingImage(true);
+
+        const uploaded = await uploadToCloudinary(imageFile);
+        payload.imageUrl = uploaded.url;
+        payload.imageID = uploaded.publicId;
+      }
+
+      if (removedExistingImage) {
+        payload.imageUrl = null;
+        payload.imageID = null;
+      }
 
       if (isEdit && book?.ID) {
-        savedBook = await updateBook.mutateAsync({
+        toast.info("Updating book...");
+        await updateBook.mutateAsync({
           id: book.ID,
           data: payload,
         });
+        toast.success("Book updated successfully");
       } else {
-        savedBook = await createBook.mutateAsync(payload);
+        toast.info("Creating book...");
+        await createBook.mutateAsync(payload);
+        toast.success("Book created successfully");
       }
 
-      const bookId = isEdit ? book?.ID : savedBook?.ID;
-
-      if (!bookId) {
-        throw new Error("Book ID was not returned");
-      }
-
-      if (imageFile) {
-        const base64 = await fileToBase64(imageFile);
-        await uploadBookImage.mutateAsync({
-          bookId,
-          file: base64,
-        });
-      }
-
-      if (!imageFile && removedExistingImage && isEdit && book?.imageUrl) {
-        await deleteBookImage.mutateAsync(bookId);
-      }
-
-      toast.success(isEdit ? "Book updated successfully" : "Book created successfully");
       onSuccess?.();
     } catch (error: unknown) {
       console.error(error);
@@ -276,6 +239,8 @@ export default function BookForm({
       } else {
         toast.error("Failed to save book");
       }
+    } finally {
+      setIsUploadingImage(false);
     }
   };
 
@@ -292,8 +257,8 @@ export default function BookForm({
 
       <Field label="Author *">
         <Select
-          value={formData.author_ID === "" ? undefined : String(formData.author_ID)}
-          onValueChange={(value) => setField("author_ID", Number(value))}
+          value={formData.author_ID}
+          onValueChange={(value) => setField("author_ID", value)}
           disabled={readOnly || authorsLoading || isSaving}
         >
           <SelectTrigger>
@@ -311,8 +276,8 @@ export default function BookForm({
 
       <Field label="Genre *">
         <Select
-          value={formData.genre_ID === "" ? undefined : String(formData.genre_ID)}
-          onValueChange={(value) => setField("genre_ID", Number(value))}
+          value={formData.genre_ID}
+          onValueChange={(value) => setField("genre_ID", value)}
           disabled={readOnly || genresLoading || isSaving}
         >
           <SelectTrigger>
@@ -356,11 +321,7 @@ export default function BookForm({
                   onClick={handleRemoveImage}
                   disabled={isSaving}
                 >
-                  {deleteBookImage.isPending ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <X className="w-4 h-4" />
-                  )}
+                  <X className="w-4 h-4" />
                 </Button>
               )}
             </div>
@@ -417,7 +378,7 @@ export default function BookForm({
 
       <Field label="Book Type *">
         <Select
-          value={formData.type || undefined}
+          value={formData.type}
           onValueChange={(value) => setField("type", value)}
           disabled={readOnly || isSaving}
         >

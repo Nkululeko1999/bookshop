@@ -2,10 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createBook,
   deleteBook,
-  deleteBookImage,
   fetchBooks,
   updateBook,
-  uploadBookImage,
 } from "./books.api";
 
 export const useBooks = () => {
@@ -42,28 +40,6 @@ export const useDeleteBook = () => {
 
   return useMutation({
     mutationFn: deleteBook,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["books"] });
-    },
-  });
-};
-
-export const useUploadBookImage = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: uploadBookImage,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["books"] });
-    },
-  });
-};
-
-export const useDeleteBookImage = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: deleteBookImage,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["books"] });
     },

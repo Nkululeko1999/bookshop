@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -37,7 +38,9 @@ const Books = () => {
     <div className="p-4 bg-white shadow rounded">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-3">
-          <h2 className="text-base font-medium">Showing {books.length} books</h2>
+          <h2 className="text-base font-medium">
+            Showing {books.length} books
+          </h2>
           {isFetching && (
             <div className="flex items-center gap-1 text-sm text-gray-500">
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -68,15 +71,25 @@ const Books = () => {
             </Button>
           </SheetTrigger>
 
-          <SheetContent className="sheet-content-large flex flex-col h-full">
+          <SheetContent
+            className="sheet-content-large flex flex-col h-full"
+            aria-describedby={undefined}
+          >
             <SheetHeader>
               <SheetTitle>
                 {mode === "view"
                   ? "View Book"
                   : selectedBook
-                  ? "Edit Book"
-                  : "Add Book"}
+                    ? "Edit Book"
+                    : "Add Book"}
               </SheetTitle>
+              <SheetDescription>
+                {mode === "view"
+                  ? "View book details"
+                  : selectedBook
+                    ? "Update book details"
+                    : "Create a new book"}
+              </SheetDescription>
             </SheetHeader>
 
             <div className="flex-1 overflow-y-auto p-2">
