@@ -12,6 +12,11 @@ service AdminService @(odata: '/admin') {
         publicId : String;
     };
 
+    action uploadAuthorAvatar(file: LargeString, authorId: UUID) returns {
+        url : String;
+        publicId    : String;
+    }
+
     action deleteBookImage(bookId: UUID)  returns {
         success : Boolean;
     };
