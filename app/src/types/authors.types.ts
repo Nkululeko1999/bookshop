@@ -1,6 +1,23 @@
 export interface Author {
-  ID: 101;
+  ID: string;
   name: string;
-  createdAt: Date;
-  modifiedAt: Date;
+  avatar?: string | null;
+  avatarID?: string | null;
+  createdAt?: string;
+}
+
+export interface AuthorPayload {
+  name: string;
+  avatar?: string | null;
+  avatarID?: string | null;
+}
+
+export interface UpdateAuthorPayload {
+  id: string;
+  data: Partial<AuthorPayload>;
+}
+
+export interface ReplaceAuthorPayload {
+  id: string;
+  data: AuthorPayload;
 }
