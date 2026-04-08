@@ -14,3 +14,11 @@ annotate AdminService.Books
     stock @assert.range: [(0), 5000];
     rating @assert.range: [1, 10];
  };
+
+annotate AdminService.Authors with {
+  name    @mandatory;
+};
+
+annotate AdminService.Orders with {
+  total   @assert.range: [(100), _];
+};
