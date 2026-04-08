@@ -4,11 +4,19 @@ import BookCard from "./book-card";
 interface BookGridProps {
   books: Book[];
   emptyMessage?: string;
+  onEdit?: (book: Book) => void;
+  onView?: (book: Book) => void;
+  onDelete?: (book: Book) => void;
+  showActions?: boolean;
 }
 
 const BookGrid = ({
   books,
   emptyMessage = "No books found",
+  onEdit,
+  onView,
+  onDelete,
+  showActions = true,
 }: BookGridProps) => {
   if (!books || books.length === 0) {
     return (
@@ -21,14 +29,15 @@ const BookGrid = ({
 
   return (
     <div className="container mx-auto px-4 py-8">
-
-
-      {/* Book Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {books.map((b) => (
+        {books.map((book) => (
           <BookCard
-            key={b.ID}
-            book={b}
+            key={book.ID}
+            book={book}
+            onEdit={onEdit ? () => onEdit(book) : undefined}
+            onView={onView ? () => onView(book) : undefined}
+            onDelete={onDelete ? () => onDelete(book) : undefined}
+            showActions={showActions}
           />
         ))}
       </div>

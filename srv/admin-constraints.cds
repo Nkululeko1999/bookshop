@@ -10,7 +10,7 @@ annotate AdminService.Books
     genre @mandatory @assert: (case 
     when not exists genre then 'Specified Genre does not exist' end);
 
-    price @assert.range: [1, 111];
-    stock @assert.range: [(0), _];
+    price @assert.range: [1, 5000];
+    stock @assert.range: [(0), 5000];
     rating @assert.range: [1, 10];
  };

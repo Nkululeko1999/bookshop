@@ -10,6 +10,7 @@ import Currencies from "@/pages/admin/currencies/Currencies";
 import Dashboard from "@/pages/admin/dashboard/Dashboard";
 import AdminGenres from "@/pages/admin/genres/Genres";
 import AdminLayout from "@/layouts/AdminLayout";
+import { ToastContainer, Zoom } from "react-toastify";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,19 @@ const App = () => {
 
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          transition={Zoom}
+        />
       </BrowserRouter>
     </QueryClientProvider>
   );
