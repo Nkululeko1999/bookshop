@@ -7,7 +7,7 @@ using {
 namespace sap.capire.bookshop;
 
 entity Users : managed {
-  key ID    : Integer;
+  key ID    : UUID;
 
       names  : String;
       email : String;
@@ -17,7 +17,7 @@ entity Users : managed {
 }
 
 entity Books : managed {
-  key ID       : Integer;
+  key ID       : UUID;
       title    : localized String;
       descr    : localized String;
       author   : Association to Authors;
@@ -34,7 +34,7 @@ entity Books : managed {
 }
 
 entity Authors : managed {
-  key ID       : Integer;
+  key ID       : UUID;
       name     : String;
       avatar   : String;
       avatarID : String;
@@ -43,12 +43,12 @@ entity Authors : managed {
 }
 
 entity Genres : sap.common.CodeList {
-  key ID     : Integer;
+  key ID     : UUID;
       parent : Association to Genres;
 }
 
 entity Orders : managed {
-  key ID    : Integer;
+  key ID    : UUID;
 
       user  : Association to Users;
       total : Decimal;
@@ -58,7 +58,7 @@ entity Orders : managed {
 }
 
 entity OrderItems : managed {
-  key ID       : Integer;
+  key ID       : UUID;
 
       book     : Association to Books;
       quantity : Integer;

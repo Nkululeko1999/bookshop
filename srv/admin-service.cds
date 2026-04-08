@@ -7,16 +7,16 @@ service AdminService @(odata: '/admin') {
     entity Users   as projection on shop.Users;
     entity Orders  as projection on shop.Orders;
 
-    action uploadBookImage(file: LargeString, bookId: Integer) returns {
+    action uploadBookImage(file: LargeString, bookId: UUID) returns {
         url      : String;
         publicId : String;
     };
 
-    action deleteBookImage(bookId: Integer)  returns {
+    action deleteBookImage(bookId: UUID)  returns {
         success : Boolean;
     };
 
-    action rateBook(bookId: Integer, rating: Integer) returns {
+    action rateBook(bookId: UUID, rating: Integer) returns {
         message : String;
     };
 }
