@@ -25,3 +25,6 @@ app/frontend/node_modules/
 
 # Tests
 test/*
+
+# ENV
+.env
