@@ -1,7 +1,21 @@
-using { sap.capire.bookshop as shop } from '../db/schema';
+using {sap.capire.bookshop as shop} from '../db/schema';
 
 service AdminService @(odata: '/admin') {
     entity Authors as projection on shop.Authors;
-    entity Books as projection on shop.Books;
-    entity Genres as projection on shop.Genres;
+    entity Books   as projection on shop.Books;
+    entity Genres  as projection on shop.Genres;
+    entity Users   as projection on shop.Users;
+    entity Orders  as projection on shop.Orders;
+
+    action uploadBookImage(bookId: Integer, file: String)      returns {
+        url : String;
+    };
+
+    action uploadAuthorAvatar(authorId: Integer, file: String) returns {
+        url : String;
+    };
+
+    action rateBook(bookId: Integer, rating: Integer)          returns {
+        message : String;
+    };
 }
