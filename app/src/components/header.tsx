@@ -23,56 +23,117 @@ import {
   CommandItem,
   CommandList,
 } from "./ui/command";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import useBooks from "@/hooks/books/use-books";
+import type { Book } from "@/types/book.types";
+import { useCartStore } from "@/lib/store/cart";
 
-const books = [
-  { id: 1, title: "Atomic Habits" },
-  { id: 2, title: "Deep Work" },
-  { id: 3, title: "Clean Code" },
-];
+type SearchBook = Book & {
+  author?: string | { ID: string; name: string };
+  genre?: string | { ID: string; name: string };
+};
 
 const Header = () => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  const filtered = books.filter((b) =>
-    b.title.toLowerCase().includes(query.toLowerCase()),
-  );
+  const { data } = useBooks("browse");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const books: SearchBook[] = data?.value || [];
+
+  const totalItems = useCartStore((state) => state.getTotalItems());
+
+  const filtered = useMemo(() => {
+    const search = query.trim().toLowerCase();
+
+    if (!search) return [];
+
+    return books.filter((book) => {
+      const authorName =
+        typeof book.author === "string"
+          ? book.author
+          : book.author?.name || "";
+
+      const genreName =
+        typeof book.genre === "string" ? book.genre : book.genre?.name || "";
+
+      return (
+        book.title?.toLowerCase().includes(search) ||
+        book.descr?.toLowerCase().includes(search) ||
+        authorName.toLowerCase().includes(search) ||
+        genreName.toLowerCase().includes(search)
+      );
+    });
+  }, [books, query]);
 
   return (
     <header className="bg-white border-b">
       <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
+        <div className="flex h-16 items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-2 shrink-0">
             <Logo />
           </Link>
 
-          {/* Search Bar */}
           <div className="hidden md:block flex-1 max-w-150">
             <Field>
               <ButtonGroup>
                 <Input
                   placeholder="Search books by name, title, genre..."
                   className="py-5"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
                 />
-                <Button className="cursor-pointer py-5">Search</Button>
+                <Button
+                  className="cursor-pointer py-5"
+                  type="button"
+                  onClick={() => {
+                    if (!query.trim()) return;
+                    navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+                  }}
+                >
+                  Search
+                </Button>
               </ButtonGroup>
             </Field>
+
+            {query.trim() && filtered.length > 0 && (
+              <div className="absolute mt-2 w-full max-w-150 rounded-md border bg-white shadow-lg z-50">
+                <div className="max-h-80 overflow-y-auto py-2">
+                  {filtered.slice(0, 6).map((book) => (
+                    <button
+                      key={book.ID}
+                      type="button"
+                      onClick={() => {
+                        setQuery("");
+                        navigate(`/books/${book.ID}`);
+                      }}
+                      className="w-full text-left px-4 py-2 hover:bg-gray-50"
+                    >
+                      <p className="font-medium">{book.title}</p>
+                      {book.author && (
+                        <p className="text-sm text-gray-500">
+                          {typeof book.author === "string"
+                            ? book.author
+                            : book.author.name}
+                        </p>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Right Section */}
           <div className="flex items-center gap-2 md:gap-4">
-            {/* Basket */}
-            <Link className="relative" to="/basket">
-
-                <ShoppingCart className="h-8 w-8" />
-                <span className="absolute -top-1.5 -right-1 text-xs bg-orange-600 text-white rounded-full px-1 z-50">
-                  3
+            <Link className="relative" to="/cart">
+              <ShoppingCart className="h-8 w-8" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1.5 -right-1 text-xs bg-orange-600 text-white rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center z-50">
+                  {totalItems}
                 </span>
+              )}
             </Link>
 
-            {/* Mobile Search */}
             <div className="block md:hidden">
               <Popover>
                 <PopoverTrigger asChild>
@@ -93,14 +154,17 @@ const Header = () => {
                     />
 
                     <CommandList className="mt-2">
-                      {filtered.length === 0 && (
+                      {query.trim() && filtered.length === 0 && (
                         <CommandEmpty>No results found.</CommandEmpty>
                       )}
 
                       {filtered.map((book) => (
                         <CommandItem
-                          key={book.id}
-                          onSelect={() => navigate(`/books/${book.id}`)}
+                          key={book.ID}
+                          onSelect={() => {
+                            setQuery("");
+                            navigate(`/books/${book.ID}`);
+                          }}
                         >
                           {book.title}
                         </CommandItem>
@@ -111,7 +175,6 @@ const Header = () => {
               </Popover>
             </div>
 
-            {/* Avatar Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="p-0 rounded-full h-10 w-10">
@@ -143,11 +206,19 @@ const Header = () => {
                   </Link>
 
                   <Link
-                    to="/basket"
-                    className="flex items-center gap-2 px-2 py-2 text-gray-500 hover:bg-gray-50 rounded-lg"
+                    to="/cart"
+                    className="flex items-center justify-between px-2 py-2 text-gray-500 hover:bg-gray-50 rounded-lg"
                   >
-                    <ShoppingCart className="size-5" />
-                    Basket
+                    <span className="flex items-center gap-2">
+                      <ShoppingCart className="size-5" />
+                      Basket
+                    </span>
+
+                    {totalItems > 0 && (
+                      <span className="text-xs bg-orange-600 text-white rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center">
+                        {totalItems}
+                      </span>
+                    )}
                   </Link>
                 </DropdownMenuGroup>
 

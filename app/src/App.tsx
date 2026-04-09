@@ -11,6 +11,8 @@ import Dashboard from "@/pages/admin/dashboard/Dashboard";
 import AdminGenres from "@/pages/admin/genres/Genres";
 import AdminLayout from "@/layouts/AdminLayout";
 import { ToastContainer, Zoom } from "react-toastify";
+import Cart from "./pages/cart/Cart";
+import PublicLayout from "./layouts/PublicLayout";
 
 const queryClient = new QueryClient();
 
@@ -19,8 +21,12 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          <Route index path="/" element={<Home />} />
-          <Route path="/books" element={<Books />} />
+          {/* Public Layout */}
+          <Route path="/" element={<PublicLayout />}>
+            <Route index path="" element={<Home />} />
+            <Route path="books" element={<Books />} />
+            <Route path="cart" element={<Cart />} />
+          </Route>
 
           {/* Protected Layout */}
           <Route path="/" element={<ProtectedLayout />}>
@@ -48,7 +54,7 @@ const App = () => {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="dark"
+          theme="light"
           transition={Zoom}
         />
       </BrowserRouter>
