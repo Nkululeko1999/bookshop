@@ -28,3 +28,6 @@ test/*
 
 # ENV
 .env
+
+# Data
+db/data
