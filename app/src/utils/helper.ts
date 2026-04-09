@@ -13,7 +13,7 @@ export const formatPrice = (price?: number | null, currency_code?: string | null
   if (!price) return "Price not set";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: currency_code || "USD",
+    currency: currency_code || "ZAR",
   }).format(price);
 };
 
