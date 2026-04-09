@@ -6,8 +6,4 @@ service AdminService @(odata: '/admin') {
     entity Genres  as projection on shop.Genres;
     entity Users   as projection on shop.Users;
     entity Orders  as projection on shop.Orders;
-
-    action rateBook(bookId: UUID, rating: Integer) returns {
-        message : String;
-    };
 }
