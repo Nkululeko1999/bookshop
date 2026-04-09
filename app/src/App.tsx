@@ -13,6 +13,7 @@ import AdminLayout from "@/layouts/AdminLayout";
 import { ToastContainer, Zoom } from "react-toastify";
 import Cart from "./pages/cart/Cart";
 import PublicLayout from "./layouts/PublicLayout";
+import BookDetails from "./pages/books/BookDetails";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => {
             <Route index path="" element={<Home />} />
             <Route path="books" element={<Books />} />
             <Route path="cart" element={<Cart />} />
+            <Route path="books/:id" element={<BookDetails />} />
           </Route>
 
           {/* Protected Layout */}

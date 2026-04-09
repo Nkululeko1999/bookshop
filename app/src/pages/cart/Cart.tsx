@@ -58,7 +58,7 @@ export default function Cart() {
     onSuccess: () => {
       clearCart();
       toast.success("Your order was created successfully.");
-      navigate("/orders");
+      navigate("/");
     },
     onError: (err) => {
       console.error(err);
@@ -71,13 +71,12 @@ export default function Cart() {
       <div className="min-h-screen">
         <div className="flex-col px-4 py-8 sm:px-6 lg:px-8">
           <div className="mb-0">
-            <Link
-              to="/books"
-              className="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Continue shopping
-            </Link>
+              <Button variant="ghost" asChild className="mb-4">
+          <Link to="/books">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to books
+          </Link>
+        </Button>
           </div>
 
           <div className="flex min-h-[65vh] items-center justify-center">
@@ -110,7 +109,7 @@ export default function Cart() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen max-w-350 mx-auto">
       <div className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
