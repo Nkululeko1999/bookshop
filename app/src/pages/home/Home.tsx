@@ -37,7 +37,9 @@ const Home = () => {
   const getItemQuantity = useCartStore((state) => state.getItemQuantity);
 
   const books: BrowseBook[] = Array.isArray(data?.value) ? data.value : [];
-  const genres: Genre[] = Array.isArray(genresData?.value) ? genresData.value : [];
+  const genres: Genre[] = Array.isArray(genresData?.value)
+    ? genresData.value
+    : [];
 
   const parentGenres = useMemo(() => {
     return genres.filter((genre) => genre.parent_ID === null);
@@ -51,8 +53,7 @@ const Home = () => {
 
       result = result.filter((book) => {
         return (
-          book.genre === selectedGenre?.name ||
-          book.genre === selectedGenre?.ID
+          book.genre === selectedGenre?.name || book.genre === selectedGenre?.ID
         );
       });
     }
@@ -146,7 +147,8 @@ const Home = () => {
 
             {selectedGenreId && (
               <p className="text-sm text-gray-500 mt-1">
-                Filtered by: {genres.find((g) => g.ID === selectedGenreId)?.name}
+                Filtered by:{" "}
+                {genres.find((g) => g.ID === selectedGenreId)?.name}
               </p>
             )}
           </div>
@@ -190,9 +192,9 @@ const Home = () => {
                 <Card
                   key={book.ID}
                   onClick={() => handleViewBook(book.ID)}
-                  className="pt-0 rounded-xl group hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer"
+                  className="pt-0 rounded group hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer h-full flex flex-col"
                 >
-                  <div className="relative h-48 overflow-hidden bg-gray-100">
+                  <div className="relative h-48 overflow-hidden bg-gray-100 shrink-0">
                     <img
                       src={book.imageUrl || "https://placehold.co/300x200"}
                       alt={book.title}
@@ -200,7 +202,7 @@ const Home = () => {
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src =
                           `https://via.placeholder.com/400x300/cccccc/666666?text=${encodeURIComponent(
-                            book.title.substring(0, 15) || "Book"
+                            book.title.substring(0, 15) || "Book",
                           )}`;
                       }}
                     />
@@ -218,91 +220,101 @@ const Home = () => {
                     </div>
                   </div>
 
-                  <CardContent className="px-4 pb-4 pt-4">
-                    <h3 className="font-semibold text-lg mb-1 line-clamp-1 group-hover:text-blue-600 transition-colors">
-                      {book.title || "Untitled Book"}
-                    </h3>
+                  <CardContent className="px-2.5 pb-2 pt-4 flex flex-col flex-1">
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-lg mb-1 line-clamp-1 group-hover:text-orange-600 transition-colors min-h-7">
+                        {book.title || "Untitled Book"}
+                      </h3>
 
-                    {book.author ? (
-                      <p className="text-sm text-gray-500 mb-2 flex items-center gap-1">
-                        <User2 className="w-4 h-4" />
-                        by {book.author}
-                      </p>
-                    ) : null}
-
-                    {book.descr ? (
-                      <p className="text-sm text-gray-600 mb-2 line-clamp-2">
-                        {book.descr}
-                      </p>
-                    ) : null}
-
-                    <div className="flex flex-wrap items-center gap-2 mb-2">
-                      {book.genre ? (
-                        <Badge
-                          variant="outline"
-                          className="text-xs flex items-center gap-1"
-                        >
-                          <Tag className="w-3 h-3" />
-                          {book.genre}
-                        </Badge>
-                      ) : null}
-
-                      {book.type ? (
-                        <Badge variant="secondary" className="text-xs">
-                          {book.type}
-                        </Badge>
-                      ) : null}
-
-                      {book.pages ? (
-                        <Badge
-                          variant="secondary"
-                          className="text-xs flex items-center gap-1"
-                        >
-                          <BookOpen className="w-3 h-3" />
-                          {book.pages} pages
-                        </Badge>
-                      ) : null}
-                    </div>
-
-                    {book.rating ? (
-                      <div className="mb-2">{renderRating(book.rating)}</div>
-                    ) : null}
-
-                    <div className="mt-3 pt-3 border-t">
-                      {book.price !== null && book.price !== undefined ? (
-                        <p className="text-xl font-bold text-blue-600">
-                          {formatPrice(book.price, book.currency_code)}
+                      {book.author ? (
+                        <p className="text-sm text-gray-500 mb-2 flex items-center gap-1 min-h-5">
+                          <User2 className="w-4 h-4 shrink-0" />
+                          <span className="line-clamp-1">by {book.author}</span>
                         </p>
                       ) : (
-                        <p className="text-sm text-gray-500 italic">
-                          Price not available
-                        </p>
+                        <div className="mb-2 min-h-5" />
                       )}
+
+                      {book.descr ? (
+                        <p className="text-sm text-gray-600 mb-2 line-clamp-2 min-h-10">
+                          {book.descr}
+                        </p>
+                      ) : (
+                        <div className="mb-2 min-h-10" />
+                      )}
+
+                      <div className="flex flex-wrap items-center gap-2 mb-2 min-h-8">
+                        {book.genre ? (
+                          <Badge
+                            variant="outline"
+                            className="text-xs flex items-center gap-1"
+                          >
+                            <Tag className="w-3 h-3" />
+                            {book.genre}
+                          </Badge>
+                        ) : null}
+
+                        {book.type ? (
+                          <Badge variant="secondary" className="text-xs">
+                            {book.type}
+                          </Badge>
+                        ) : null}
+
+                        {book.pages ? (
+                          <Badge
+                            variant="secondary"
+                            className="text-xs flex items-center gap-1"
+                          >
+                            <BookOpen className="w-3 h-3" />
+                            {book.pages} pages
+                          </Badge>
+                        ) : null}
+                      </div>
+
+                      <div className="mb-2 min-h-6">
+                        {book.rating ? renderRating(book.rating) : null}
+                      </div>
                     </div>
 
-                    <div className="mt-4 space-y-2">
-                      {quantityInCart > 0 && (
-                        <p className="text-xs text-gray-500">
-                          In cart: {quantityInCart}
-                        </p>
-                      )}
+                    <div className="mt-auto">
+                      <div className="pt-0 border-t min-h-15 flex items-center">
+                        {book.price !== null && book.price !== undefined ? (
+                          <p className="text-xl font-bold text-orange-600">
+                            {formatPrice(book.price, book.currency_code)}
+                          </p>
+                        ) : (
+                          <p className="text-sm text-gray-500 italic">
+                            Price not available
+                          </p>
+                        )}
+                      </div>
 
-                      <Button
-                        type="button"
-                        className="w-full gap-2"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleAddToCart(book);
-                        }}
-                        disabled={isOutOfStock || isAtStockLimit}
-                      >
-                        <ShoppingCart className="w-4 h-4" />
-                        {isOutOfStock
-                          ? "Out of stock"
-                          : isAtStockLimit
-                          ? "Max in cart"
-                          : "Add to cart"}
-                      </Button>
+                      <div className="mt-0 space-y-2">
+                        <div className="min-h-5">
+                          {quantityInCart > 0 && (
+                            <p className="text-xs text-gray-500">
+                              In cart: {quantityInCart}
+                            </p>
+                          )}
+                        </div>
+
+                        <Button
+                          type="button"
+                          className="w-full gap-2"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleAddToCart(book);
+                          }}
+                          disabled={isOutOfStock || isAtStockLimit}
+                        >
+                          <ShoppingCart className="w-4 h-4" />
+                          {isOutOfStock
+                            ? "Out of stock"
+                            : isAtStockLimit
+                              ? "Max in cart"
+                              : "Add to cart"}
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
