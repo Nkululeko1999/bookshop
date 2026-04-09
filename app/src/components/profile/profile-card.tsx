@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -17,7 +15,7 @@ interface ProfileCardProps {
   onLogout?: () => void
 }
 
-export function ProfileCard({ user, onLogout }: ProfileCardProps) {
+export function ProfileCard({ user }: ProfileCardProps) {
   const getInitials = (name: string) => {
     return name
       .split(' ')
@@ -57,15 +55,6 @@ export function ProfileCard({ user, onLogout }: ProfileCardProps) {
           </p>
         </div>
       </CardContent>
-      <CardFooter>
-        <Button 
-        size="lg"
-          onClick={onLogout}
-          className="w-full bg-orange-600"
-        >
-          Logout
-        </Button>
-      </CardFooter>
     </Card>
   )
 }

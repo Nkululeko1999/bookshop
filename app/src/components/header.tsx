@@ -1,16 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./logo";
-import { Heart, LogOut, Search, User, ShoppingCart } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
 import { Field } from "./ui/field";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -27,6 +16,7 @@ import { useMemo, useState } from "react";
 import useBooks from "@/hooks/books/use-books";
 import type { Book } from "@/types/book.types";
 import { useCartStore } from "@/lib/store/cart";
+import { Search, ShoppingCart } from "lucide-react";
 
 type SearchBook = Book & {
   author?: string | { ID: string; name: string };
@@ -174,62 +164,6 @@ const Header = () => {
                 </PopoverContent>
               </Popover>
             </div>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="p-0 rounded-full h-10 w-10">
-                  <Avatar className="h-10 w-10">
-                    <AvatarImage src="" />
-                    <AvatarFallback className="bg-primary text-primary-foreground text-base">
-                      NK
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent className="w-56 mr-4 md:mr-6 lg:mr-8">
-                <DropdownMenuGroup>
-                  <Link
-                    to="/profile"
-                    className="flex items-center gap-2 px-2 py-2 text-gray-500 hover:bg-gray-50 rounded-lg"
-                  >
-                    <User className="size-5" />
-                    My profile
-                  </Link>
-
-                  <Link
-                    to="/favorites"
-                    className="flex items-center gap-2 px-2 py-2 text-gray-500 hover:bg-gray-50 rounded-lg"
-                  >
-                    <Heart className="size-5" />
-                    Favorites
-                  </Link>
-
-                  <Link
-                    to="/cart"
-                    className="flex items-center justify-between px-2 py-2 text-gray-500 hover:bg-gray-50 rounded-lg"
-                  >
-                    <span className="flex items-center gap-2">
-                      <ShoppingCart className="size-5" />
-                      Basket
-                    </span>
-
-                    {totalItems > 0 && (
-                      <span className="text-xs bg-orange-600 text-white rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center">
-                        {totalItems}
-                      </span>
-                    )}
-                  </Link>
-                </DropdownMenuGroup>
-
-                <DropdownMenuSeparator />
-
-                <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-gray-500 hover:bg-gray-50 rounded-lg">
-                  <LogOut className="size-5" />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
         </div>
       </div>

@@ -34,6 +34,7 @@ type FormState = {
   ISBN: string;
   type: string;
   pages: number;
+  rating: number;
   currency: string;
 };
 
@@ -55,6 +56,7 @@ function getInitialFormData(book: Book | null): FormState {
     ISBN: book?.ISBN ?? "",
     type: book?.type ?? "",
     pages: Number(book?.pages ?? 0),
+    rating: Number(book?.rating ?? 0),
     currency: book?.currency_code ?? "ZAR",
   };
 }
@@ -201,6 +203,7 @@ export default function BookForm({
         ISBN: formData.ISBN.trim(),
         type: formData.type.trim(),
         pages: Number(formData.pages),
+        rating: Number(formData.rating),
         currency_code: formData.currency.trim(),
       };
 
@@ -424,6 +427,19 @@ export default function BookForm({
           value={formData.price}
           onChange={(e) => setField("price", Number(e.target.value) || 0)}
           placeholder="Book price"
+          disabled={readOnly || isSaving}
+        />
+      </Field>
+
+       <Field label="Rating">
+        <Input
+          type="number"
+          min={1}
+          max={10}
+          step="1"
+          value={formData.rating}
+          onChange={(e) => setField("rating", Number(e.target.value) || 0)}
+          placeholder="Book Rating"
           disabled={readOnly || isSaving}
         />
       </Field>
