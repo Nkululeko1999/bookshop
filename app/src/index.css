@@ -155,3 +155,13 @@ p {
     width: 100vw !important;
   }
 }
+
+/* Hide scrollbar but keep scrolling */
+* {
+  scrollbar-width: none;       
+  -ms-overflow-style: none;    
+}
+
+*::-webkit-scrollbar {
+  display: none;               
+}
