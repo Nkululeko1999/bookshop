@@ -1,0 +1,157 @@
+code,name,descr
+AED,UAE Dirham,United Arab Emirates currency
+AFN,Afghan Afghani,Afghanistan currency
+ALL,Albanian Lek,Albania currency
+AMD,Armenian Dram,Armenia currency
+ANG,Netherlands Antillean Guilder,Curaçao and Sint Maarten currency
+AOA,Angolan Kwanza,Angola currency
+ARS,Argentine Peso,Argentina currency
+AUD,Australian Dollar,Australia currency
+AWG,Aruban Florin,Aruba currency
+AZN,Azerbaijani Manat,Azerbaijan currency
+BAM,Bosnia-Herzegovina Convertible Mark,Bosnia currency
+BBD,Barbadian Dollar,Barbados currency
+BDT,Bangladeshi Taka,Bangladesh currency
+BGN,Bulgarian Lev,Bulgaria currency
+BHD,Bahraini Dinar,Bahrain currency
+BIF,Burundian Franc,Burundi currency
+BMD,Bermudian Dollar,Bermuda currency
+BND,Brunei Dollar,Brunei currency
+BOB,Bolivian Boliviano,Bolivia currency
+BRL,Brazilian Real,Brazil currency
+BSD,Bahamian Dollar,Bahamas currency
+BTN,Bhutanese Ngultrum,Bhutan currency
+BWP,Botswana Pula,Botswana currency
+BYN,Belarusian Ruble,Belarus currency
+BZD,Belize Dollar,Belize currency
+CAD,Canadian Dollar,Canada currency
+CDF,Congolese Franc,DR Congo currency
+CHF,Swiss Franc,Switzerland currency
+CLP,Chilean Peso,Chile currency
+CNY,Chinese Yuan,China currency
+COP,Colombian Peso,Colombia currency
+CRC,Costa Rican Colón,Costa Rica currency
+CUP,Cuban Peso,Cuba currency
+CVE,Cape Verdean Escudo,Cape Verde currency
+CZK,Czech Koruna,Czech Republic currency
+DJF,Djiboutian Franc,Djibouti currency
+DKK,Danish Krone,Denmark currency
+DOP,Dominican Peso,Dominican Republic currency
+DZD,Algerian Dinar,Algeria currency
+EGP,Egyptian Pound,Egypt currency
+ERN,Eritrean Nakfa,Eritrea currency
+ETB,Ethiopian Birr,Ethiopia currency
+EUR,Euro,Eurozone currency
+FJD,Fijian Dollar,Fiji currency
+FKP,Falkland Islands Pound,Falkland Islands currency
+GBP,British Pound,United Kingdom currency
+GEL,Georgian Lari,Georgia currency
+GHS,Ghanaian Cedi,Ghana currency
+GIP,Gibraltar Pound,Gibraltar currency
+GMD,Gambian Dalasi,Gambia currency
+GNF,Guinean Franc,Guinea currency
+GTQ,Guatemalan Quetzal,Guatemala currency
+GYD,Guyanese Dollar,Guyana currency
+HKD,Hong Kong Dollar,Hong Kong currency
+HNL,Honduran Lempira,Honduras currency
+HRK,Croatian Kuna,Croatia currency
+HTG,Haitian Gourde,Haiti currency
+HUF,Hungarian Forint,Hungary currency
+IDR,Indonesian Rupiah,Indonesia currency
+ILS,Israeli New Shekel,Israel currency
+INR,Indian Rupee,India currency
+IQD,Iraqi Dinar,Iraq currency
+IRR,Iranian Rial,Iran currency
+ISK,Icelandic Króna,Iceland currency
+JMD,Jamaican Dollar,Jamaica currency
+JOD,Jordanian Dinar,Jordan currency
+JPY,Japanese Yen,Japan currency
+KES,Kenyan Shilling,Kenya currency
+KGS,Kyrgyzstani Som,Kyrgyzstan currency
+KHR,Cambodian Riel,Cambodia currency
+KMF,Comorian Franc,Comoros currency
+KPW,North Korean Won,North Korea currency
+KRW,South Korean Won,South Korea currency
+KWD,Kuwaiti Dinar,Kuwait currency
+KYD,Cayman Islands Dollar,Cayman Islands currency
+KZT,Kazakhstani Tenge,Kazakhstan currency
+LAK,Lao Kip,Laos currency
+LBP,Lebanese Pound,Lebanon currency
+LKR,Sri Lankan Rupee,Sri Lanka currency
+LRD,Liberian Dollar,Liberia currency
+LSL,Lesotho Loti,Lesotho currency
+LYD,Libyan Dinar,Libya currency
+MAD,Moroccan Dirham,Morocco currency
+MDL,Moldovan Leu,Moldova currency
+MGA,Malagasy Ariary,Madagascar currency
+MKD,Macedonian Denar,North Macedonia currency
+MMK,Myanmar Kyat,Myanmar currency
+MNT,Mongolian Tögrög,Mongolia currency
+MOP,Macanese Pataca,Macau currency
+MRU,Mauritanian Ouguiya,Mauritania currency
+MUR,Mauritian Rupee,Mauritius currency
+MVR,Maldivian Rufiyaa,Maldives currency
+MWK,Malawian Kwacha,Malawi currency
+MXN,Mexican Peso,Mexico currency
+MYR,Malaysian Ringgit,Malaysia currency
+MZN,Mozambican Metical,Mozambique currency
+NAD,Namibian Dollar,Namibia currency
+NGN,Nigerian Naira,Nigeria currency
+NIO,Nicaraguan Córdoba,Nicaragua currency
+NOK,Norwegian Krone,Norway currency
+NPR,Nepalese Rupee,Nepal currency
+NZD,New Zealand Dollar,New Zealand currency
+OMR,Omani Rial,Oman currency
+PAB,Panamanian Balboa,Panama currency
+PEN,Peruvian Sol,Peru currency
+PGK,Papua New Guinean Kina,Papua New Guinea currency
+PHP,Philippine Peso,Philippines currency
+PKR,Pakistani Rupee,Pakistan currency
+PLN,Polish Złoty,Poland currency
+PYG,Paraguayan Guaraní,Paraguay currency
+QAR,Qatari Riyal,Qatar currency
+RON,Romanian Leu,Romania currency
+RSD,Serbian Dinar,Serbia currency
+RUB,Russian Ruble,Russia currency
+RWF,Rwandan Franc,Rwanda currency
+SAR,Saudi Riyal,Saudi Arabia currency
+SBD,Solomon Islands Dollar,Solomon Islands currency
+SCR,Seychellois Rupee,Seychelles currency
+SDG,Sudanese Pound,Sudan currency
+SEK,Swedish Krona,Sweden currency
+SGD,Singapore Dollar,Singapore currency
+SHP,Saint Helena Pound,Saint Helena currency
+SLL,Sierra Leonean Leone,Sierra Leone currency
+SOS,Somali Shilling,Somalia currency
+SRD,Surinamese Dollar,Suriname currency
+SSP,South Sudanese Pound,South Sudan currency
+STN,São Tomé and Príncipe Dobra,São Tomé currency
+SVC,Salvadoran Colón,El Salvador currency
+SYP,Syrian Pound,Syria currency
+SZL,Eswatini Lilangeni,Eswatini currency
+THB,Thai Baht,Thailand currency
+TJS,Tajikistani Somoni,Tajikistan currency
+TMT,Turkmenistani Manat,Turkmenistan currency
+TND,Tunisian Dinar,Tunisia currency
+TOP,Tongan Paʻanga,Tonga currency
+TRY,Turkish Lira,Turkey currency
+TTD,Trinidad and Tobago Dollar,Trinidad currency
+TWD,New Taiwan Dollar,Taiwan currency
+TZS,Tanzanian Shilling,Tanzania currency
+UAH,Ukrainian Hryvnia,Ukraine currency
+UGX,Ugandan Shilling,Uganda currency
+USD,US Dollar,United States currency
+UYU,Uruguayan Peso,Uruguay currency
+UZS,Uzbekistani Soʻm,Uzbekistan currency
+VES,Venezuelan Bolívar,Venezuela currency
+VND,Vietnamese Dong,Vietnam currency
+VUV,Vanuatu Vatu,Vanuatu currency
+WST,Samoan Tala,Samoa currency
+XAF,Central African CFA Franc,Central Africa currency
+XCD,East Caribbean Dollar,Caribbean currency
+XOF,West African CFA Franc,West Africa currency
+XPF,CFP Franc,French Pacific currency
+YER,Yemeni Rial,Yemen currency
+ZAR,South African Rand,South Africa currency
+ZMW,Zambian Kwacha,Zambia currency
+ZWL,Zimbabwean Dollar,Zimbabwe currency

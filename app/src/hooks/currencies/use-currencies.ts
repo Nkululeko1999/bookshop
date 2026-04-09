@@ -1,11 +1,15 @@
 import { getCurrencies } from "@/api/currencies.api";
-import { currenciesKeys } from "@/queries/currencies.keys";
 import { useQuery } from "@tanstack/react-query";
 
-const useCurrencies = (role: QueryRole) => {
+const useCurrencies = (
+  role: QueryRole,
+  page: number,
+  pageSize: number
+) => {
   return useQuery({
-    queryKey: currenciesKeys.list(role),
-    queryFn: () => getCurrencies(role),
+    queryKey: ["currencies", role, page, pageSize],
+    queryFn: () => getCurrencies(role, page, pageSize),
+    placeholderData: (prev) => prev,
   });
 };
 
