@@ -20,6 +20,9 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore } from "@/lib/store/cart";
 import { formatPrice } from "@/utils/helper";
+import { useNavigate } from "react-router-dom";
+import { useCreateOrder } from "@/api/orders/orders.hooks";
+import { toast } from "react-toastify";
 
 export default function Cart() {
   const {
@@ -35,6 +38,33 @@ export default function Cart() {
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
   const cartCurrency = items[0]?.book.currency_code || "ZAR";
+  const navigate = useNavigate();
+  const { mutate, isPending } = useCreateOrder();
+
+  const handleBuyNow = () => {
+  const userId = import.meta.env.VITE_USER_ID;
+
+  const payload = {
+    user_ID: userId,
+    total: totalPrice,
+    items: items.map((item) => ({
+      book_ID: item.book.ID,
+      quantity: item.quantity,
+      price: item.book.price ?? 0,
+    })),
+  };
+
+  mutate(payload, {
+    onSuccess: () => {
+      clearCart();
+      toast.success("Your order was created successfully.");
+      navigate("/orders");
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
+};
 
   if (items.length === 0) {
     return (
@@ -268,8 +298,13 @@ export default function Cart() {
               </CardContent>
 
               <CardFooter className="flex flex-col gap-3">
-                <Button className="w-full rounded-xl" size="lg">
-                  Buy Now
+                <Button
+                  className="w-full rounded-xl"
+                  size="lg"
+                  onClick={handleBuyNow}
+                  disabled={isPending || items.length === 0}
+                >
+                  {isPending ? "Processing..." : "Buy Now"}
                 </Button>
 
                 <Button
