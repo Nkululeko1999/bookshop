@@ -12,15 +12,15 @@ import { Card, CardContent } from "../../components/ui/card";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import useBooks from "@/hooks/books/use-books";
-import useGenres from "@/hooks/genres/use-genres";
 import type { Genre } from "@/types/genres.types";
-import type { BrowseBook } from "@/types/book.types";
+import type { Book } from "@/types/book.types";
 import HeroWithImage from "@/components/hero-image";
 import { formatPrice } from "@/utils/helper";
 import renderRating from "@/components/rating/rating";
 import { useCartStore } from "@/lib/store/cart";
 import { toast } from "react-toastify";
+import { useBooks } from "@/api/books/books.hooks";
+import { useGenres } from "@/api/genres/genres.hooks";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -30,15 +30,21 @@ const Home = () => {
     "title-asc" | "title-desc" | "newest" | "oldest"
   >("newest");
 
-  const { isPending, error, data } = useBooks("browse");
+  const { isPending, error, data } = useBooks();
   const { data: genresData } = useGenres("browse");
+
+  const books: Book[] = Array.isArray(data)
+  ? data
+  : Array.isArray(data?.value)
+    ? data.value
+    : [];
+  
 
   const addToCart = useCartStore((state) => state.addToCart);
   const getItemQuantity = useCartStore((state) => state.getItemQuantity);
 
-  const books: BrowseBook[] = Array.isArray(data?.value) ? data.value : [];
-  const genres: Genre[] = Array.isArray(genresData?.value)
-    ? genresData.value
+  const genres: Genre[] = Array.isArray(genresData)
+    ? genresData
     : [];
 
   const parentGenres = useMemo(() => {
@@ -53,7 +59,7 @@ const Home = () => {
 
       result = result.filter((book) => {
         return (
-          book.genre === selectedGenre?.name || book.genre === selectedGenre?.ID
+          book.genre.name === selectedGenre?.name || book.genre.name === selectedGenre?.ID
         );
       });
     }
@@ -84,7 +90,7 @@ const Home = () => {
     navigate(`/books/${bookId}`);
   };
 
-  const handleAddToCart = (book: BrowseBook) => {
+  const handleAddToCart = (book: Book) => {
     addToCart(book);
     toast.success("Added to cart");
   };
@@ -229,7 +235,7 @@ const Home = () => {
                       {book.author ? (
                         <p className="text-sm text-gray-500 mb-2 flex items-center gap-1 min-h-5">
                           <User2 className="w-4 h-4 shrink-0" />
-                          <span className="line-clamp-1">by {book.author}</span>
+                          <span className="line-clamp-1">by {book.author.name}</span>
                         </p>
                       ) : (
                         <div className="mb-2 min-h-5" />
@@ -250,7 +256,7 @@ const Home = () => {
                             className="text-xs flex items-center gap-1"
                           >
                             <Tag className="w-3 h-3" />
-                            {book.genre}
+                            {book.genre.name}
                           </Badge>
                         ) : null}
 

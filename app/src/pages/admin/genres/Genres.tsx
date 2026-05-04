@@ -1,3 +1,4 @@
+import { useCreateGenre, useGenres } from "@/api/genres/genres.hooks";
 import AddNewGenre from "@/components/genres/add-genre";
 import GenreGrid from "@/components/genres/genre-grid";
 import { Button } from "@/components/ui/button";
@@ -9,8 +10,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import useCreateGenre from "@/hooks/genres/use-create-grenre";
-import useGenres from "@/hooks/genres/use-genres";
 import type { Genre } from "@/types/genres.types";
 import { Plus } from "lucide-react";
 import { useState } from "react";
@@ -43,7 +42,7 @@ const Genres = () => {
     <div className="bg-white p-4 md:p-6 shadow rounded-sm">
       <div className="mb-4 flex justify-between items-center">
         <h2 className="text-base font-medium">
-          Showing {data.value.length} of Genres
+          Showing {data.length} of Genres
         </h2>
         <div>
          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -67,7 +66,7 @@ const Genres = () => {
               {/* Scrollable form area */}
               <div className="flex-1 overflow-y-auto px-1 py-4">
                 <AddNewGenre 
-                  genres={data.value} 
+                  genres={data} 
                   onSubmit={handleSubmit}
                   onClose={() => setIsSheetOpen(false)}
                   isSubmitting={isCreating}
@@ -77,7 +76,7 @@ const Genres = () => {
           </Sheet>
         </div>
       </div>
-      <GenreGrid genres={data.value} />
+      <GenreGrid genres={data} />
     </div>
   );
 };

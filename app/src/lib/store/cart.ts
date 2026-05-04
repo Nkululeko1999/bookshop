@@ -1,16 +1,16 @@
-import type { BrowseBook } from "@/types/book.types";
+import type { Book } from "@/types/book.types";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 export interface CartItem {
-  book: BrowseBook;
+  book: Book;
   quantity: number;
 }
 
 interface CartStore {
   items: CartItem[];
 
-  addToCart: (book: BrowseBook) => void;
+  addToCart: (book: Book) => void;
   removeFromCart: (bookId: string) => void;
   clearCart: () => void;
   increaseQuantity: (bookId: string) => void;

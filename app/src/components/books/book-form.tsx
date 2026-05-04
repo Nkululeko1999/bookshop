@@ -19,10 +19,10 @@ import type { Book } from "@/types/book.types";
 import type { Author } from "@/types/authors.types";
 import type { Genre } from "@/types/genres.types";
 
-import useAuthors from "@/hooks/authors/use-authors";
-import useGenres from "@/hooks/genres/use-genres";
 import { useCreateBook, useUpdateBook } from "@/api/books/books.hooks";
 import { uploadToCloudinary } from "@/lib/utils";
+import { useAuthors } from "@/api/authors/authors.hooks";
+import { useGenres } from "@/api/genres/genres.hooks";
 
 type FormState = {
   title: string;
@@ -83,11 +83,11 @@ export default function BookForm({
   const createBook = useCreateBook();
   const updateBook = useUpdateBook();
 
-  const { data: authorsData, isLoading: authorsLoading } = useAuthors("admin");
+  const { data: authorsData, isLoading: authorsLoading } = useAuthors();
   const { data: genresData, isLoading: genresLoading } = useGenres("admin");
 
-  const authors: Author[] = useMemo(() => authorsData?.value ?? [], [authorsData]);
-  const genres: Genre[] = useMemo(() => genresData?.value ?? [], [genresData]);
+  const authors: Author[] = useMemo(() => authorsData ?? [], [authorsData]);
+  const genres: Genre[] = useMemo(() => genresData ?? [], [genresData]);
 
   const [formData, setFormData] = useState<FormState>(() => getInitialFormData(book));
   const [imageFile, setImageFile] = useState<File | null>(null);

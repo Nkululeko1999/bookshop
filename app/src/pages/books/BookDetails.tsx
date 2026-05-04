@@ -14,26 +14,24 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import useBooks from "@/hooks/books/use-books";
 import { useCartStore } from "@/lib/store/cart";
 import { formatPrice } from "@/utils/helper";
 import renderRating from "@/components/rating/rating";
-import type { BrowseBook } from "@/types/book.types";
 import { toast } from "react-toastify";
+import { useBooks } from "@/api/books/books.hooks";
+import type { Book } from "@/types/book.types";
 
 const BookDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const { isPending, error, data } = useBooks("browse");
+  const { isPending, error, data: books } = useBooks();
 
   const addToCart = useCartStore((state) => state.addToCart);
   const getItemQuantity = useCartStore((state) => state.getItemQuantity);
 
-  const books: BrowseBook[] = Array.isArray(data?.value) ? data.value : [];
-
   const book = useMemo(() => {
-    return books.find((item) => item.ID === id) ?? null;
+    return books.find((item: Book) => item.ID === id) ?? null;
   }, [books, id]);
 
   if (isPending) {

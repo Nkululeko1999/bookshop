@@ -1,14 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { deleteGenre } from "@/api/genres.api";
+import { createGenre, deleteGenre, getGenres } from "@/api/genres/genres.api"
 import { genreKeys } from "@/queries/genres.keys";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 type DeleteParams = {
   role: QueryRole;
   id: number;
 };
 
-const useDeleteGenre = () => {
+export const useGenres = (role: QueryRole) => {
+    return useQuery({
+  queryKey: genreKeys.list(role),
+  queryFn: () => getGenres(role),
+});
+};
+
+
+
+export const useDeleteGenre = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -50,4 +59,24 @@ const useDeleteGenre = () => {
   });
 };
 
-export default useDeleteGenre;
+
+
+export const useCreateGenre = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createGenre,
+
+    onSuccess: (variables) => {
+      // Invalidate and refetch genres query
+      queryClient.invalidateQueries({
+        queryKey: genreKeys.list(variables.role),
+      });
+    },
+    
+    onError: (error: Error) => {
+      console.error("Failed to create genre:", error);
+    },
+  });
+};
+

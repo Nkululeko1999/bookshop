@@ -1,5 +1,5 @@
-import { getCurrencies } from "@/api/currencies.api";
 import { useQuery } from "@tanstack/react-query";
+import { getCurrencies } from "./currencies.api";
 
 const useCurrencies = (
   role: QueryRole,

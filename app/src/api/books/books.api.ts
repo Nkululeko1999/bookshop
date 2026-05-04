@@ -6,6 +6,7 @@ export const fetchBooks = async () => {
   }
 
   const data = await res.json();
+  
   return data.value;
 };
 

@@ -13,10 +13,10 @@ import {
   CommandList,
 } from "./ui/command";
 import { useMemo, useState } from "react";
-import useBooks from "@/hooks/books/use-books";
 import type { Book } from "@/types/book.types";
 import { useCartStore } from "@/lib/store/cart";
 import { Search, ShoppingCart } from "lucide-react";
+import { useBooks } from "@/api/books/books.hooks";
 
 type SearchBook = Book & {
   author?: string | { ID: string; name: string };
@@ -27,7 +27,7 @@ const Header = () => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  const { data } = useBooks("browse");
+  const { data } = useBooks();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const books: SearchBook[] = data?.value || [];
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CurrencyGrid from "@/components/currencies/currency-grid";
-import useCurrencies from "@/hooks/currencies/use-currencies";
 import { Button } from "@/components/ui/button";
+import useCurrencies from "@/api/currencies/currencies.hooks";
 
 const PAGE_SIZE = 12;
 

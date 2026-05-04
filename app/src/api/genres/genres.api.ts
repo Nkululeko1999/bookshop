@@ -10,10 +10,16 @@ type CreateParams = {
   formData: Omit<Genre, "ID">;
 }
 
-export const getGenres = async (role: QueryRole) => {    
+export const getGenres = async (role: QueryRole): Promise<Genre[]> => {    
   const res = await fetch(`/api/${role}/Genres`);
+
+    if (!res.ok) {
+    throw new Error("Failed to fetch genres");
+  }
+
  
-  return res.json();
+  const data = await res.json();
+  return data.value ?? [];
 };
 
 export const deleteGenre = async (params: DeleteParams) => {

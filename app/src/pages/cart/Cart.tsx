@@ -170,11 +170,11 @@ export default function Cart() {
                             </h2>
 
                             <div className="text-muted-foreground mt-1 flex flex-wrap items-center gap-2 text-sm">
-                              <span>{book.author}</span>
+                              <span>{book.author.name}</span>
                               {book.genre ? (
                                 <>
                                   <span>•</span>
-                                  <span>{book.genre}</span>
+                                  <span>{book.genre.name}</span>
                                 </>
                               ) : null}
                             </div>

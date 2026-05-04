@@ -1,6 +1,6 @@
 import { Trash } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
-import useDeleteGenre from "@/hooks/genres/use-delete-genre";
+import { useDeleteGenre } from "@/api/genres/genres.hooks";
 
 const GenreCard = ({
   id,
